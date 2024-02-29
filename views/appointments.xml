@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="appointment_view_tree" model="ir.ui.view">
+    <field name="name">appointment.view.tree</field>
+    <field name="model">appointment.appointment</field>
+    <field name="arch" type="xml">
+      <tree string="Appointments" decoration-success="state == 'end'"
+        decoration-danger="urgency_level == 'urgent'">
+        <field name="patient_id" />
+        <field name="doctor_id" />
+        <field name="start_date" />
+        <field name="end_date" />
+        <field name="urgency_level" />
+        <field name="state" />
+        <field name="comments" />
+      </tree>
+    </field>
+  </record>
+  <record id="view_appointment_form" model="ir.ui.view">
+    <field name="name">appointment.form.view</field>
+    <field name="model">appointment.appointment</field>
+    <field name="arch" type="xml">
+      <form name="appointment_form" String="Appointments">
+        <header>
+          <button name="action_start" type="object" string="Start"
+            attrs="{'invisible' : [('state' , '!=' , 'new' )]}" />
+          <button name="action_end" type="object" string="End"
+            attrs="{'invisible' : [('state' , '!=' , 'in-progress' )]}" />
+          <field name="state" widget="statusbar" statusbar_visible="new,in-progress,end" />
+        </header>
+        <sheet>
+          <div class="oe_button_box" name="button_box">
+            <button name="action_show_patients" string="patients" />
+          </div>
+          <div class="oe_title">
+            <h3>
+              <field name="name" />
+            </h3>
+          </div>
+          <group>
+            <group name="left_group">
+              <field name="patient_id" />
+              <field name="doctor_id" />
+              <field name="start_date" />
+            </group>
+            <group name="right_group">
+              <field name="end_date" />
+              <field name="urgency_level" widget="radio" />
+            </group>
+          </group>
+          <notebook>
+            <page name="comment" string="Comments">
+              <field name="comments" />
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+  <record id="action_appointment_view" model="ir.actions.act_window">
+    <field name="name">Appointments</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">appointment.appointment</field>
+    <field name="view_mode">tree,form,kanban</field>
+    <field name="view_id" ref="appointment_view_tree" />
+  </record>
+  <menuitem
+    id="appointment_menu"
+    name="Appointments"
+    parent="hospital_mgmt_root"
+    action="action_appointment_view" />
+</odoo>

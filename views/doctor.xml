@@ -1,0 +1,51 @@
+<odoo>
+    <record id="doctor_view_tree" model="ir.ui.view">
+        <field name="name">doctor.view.tree</field>
+        <field name="model">doctor.doctor</field>
+        <field name="arch" type="xml">
+            <tree string="Doctors">
+                <field name="name"/>
+                <field name="dept_id"/>
+                <field name="license_no"/>
+                <field name="app_date"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_doctor_form" model="ir.ui.view">
+        <field name="name">doctor.form.view</field>
+        <field name="model">doctor.doctor</field>
+        <field name="arch" type="xml">
+          <sheet>
+            <form name="doctor_form" String="Doctors">
+                    <group>
+                        <group name="left_group">
+                            <field name="name" />
+                            <field name="license_no" />
+                        </group>
+                        <group name="right_group">
+                            <field name="dept_id" />
+                            <field name="app_date" />
+                        </group>
+                    </group>
+            </form>
+          </sheet>
+        </field>
+    </record>
+    <record id="action_doc_view" model="ir.actions.act_window">
+        <field name="name">Doctors</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">doctor.doctor</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face"> 
+            Create a New Record
+          </p>
+        </field>
+        <field name="view_id" ref="doctor_view_tree" />
+    </record>
+    <menuitem
+      id="doc_menu"
+      name="Doctors"
+      parent="hospital_mgmt_root"
+      action="action_doc_view" />
+</odoo>

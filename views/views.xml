@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!---Top Menu-->
+    <menuitem
+        id="hospital_mgmt_root"
+        name="Hospital Management"
+        sequence="10"/>
+    <!--Patient Tree-->
+    <record id="patient_view_tree" model="ir.ui.view">
+        <field name="name">patient.view.tree</field>
+        <field name="model">patient.patient</field>
+        <field name="arch" type="xml">
+           <tree string="Patients">  
+                <field name="name" />
+                <field name="dob" />
+                <field name="age" />
+                <field name="gender" />
+                <field name="email" />
+                <field name="phone" />
+                <field name="address" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+    <record id="view_patient_form" model="ir.ui.view">
+        <field name="name">patient.form.view</field>
+        <field name="model">patient.patient</field>
+        <field name="arch" type="xml">
+            <form name="patient_form" String="Patients">
+                <sheet>
+                    <group>
+                        <group name="left_group">
+                            <field name="name" />
+                            <field name="dob" />
+                            <field name="age" />
+                            <field name="gender" />
+                        </group>
+                        <group name="right_group">
+                            <field name="email" />
+                            <field name="phone" />
+                            <field name="address" />
+                        </group>
+                    </group>
+                   <notebook>
+                        <page name="doctor_detail" string="Doctors Info">
+                            <field name="doctor_ids">
+                              <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="dept_id"/>
+                                <field name="license_no"/>
+                                <field name="app_date"/>
+                              </tree>
+                            </field>
+                        </page>
+                   </notebook> 
+                </sheet>
+                <div class="oe_chatter"> 
+                  <field name="message_follower_ids" />
+                  <field name="activity_ids" />
+                  <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+    <!-- patient action -->
+    <record id="patient_action" model="ir.actions.act_window">
+        <field name="name">Patients</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">patient.patient</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+    <!-- patients menu -->
+    <menuitem
+        id="patient_patient_menu"
+        name="Patients"
+        parent="hospital_mgmt_root"
+        action="patient_action"
+        sequence="1" />
+</odoo>
